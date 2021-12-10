@@ -2,91 +2,79 @@ html
     head
         title= 'JS Materials'
 
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js')
-        link(type='text/css', href='')
-    body
+        script(src='javascripts/pdfjs/build/pdf.js')
+
+        link(rel='stylesheet', href='stylesheets/reset.css')
+        link(rel='stylesheet', href='stylesheets/breakpoints.css')
+        link(rel='stylesheet', href='stylesheets/layout.css')
+        link(rel='stylesheet', href='stylesheets/content.css')
+        link(rel='stylesheet', href='stylesheets/header.css')
+        link(rel='stylesheet', href='stylesheets/footer.css')
+        link(rel='stylesheet', href='stylesheets/sidebar.css')
+
+    body(class='layout')
+        // If logged in
         if student
-            h1 #{student}
-            ul(class='')
+            // Student name
+            span() #{student}
+            a(href='/auth/logout')='Logout'
+            // Table of contents
+            div(class='sidebar')
                 each m in material
-                    li
-                        button(onclick='openMaterial(this.id)', id=m.name) #{m.chapter}.#{m.name}
+                    // Option in table of contents
+                    // On click opens modal window
+                    button(class='sidebar__item', onclick='openMaterial(this.id)', id=m.chapter +'.'+ m.name) #{m.chapter}.#{m.name}
+
+                // If admin, show upload material option
+                if student == 'admin'
+                    form(action='materials', method='POST', enctype="multipart/form-data")
+                        input(type='file', name='toUpload')
+                        button(type='submit')='Upload File'
 
             each m in material
-                div(id='modal' + m.name, style='display:none;')
-                    h1 #{m.name}
-                    canvas(id='canvas')
-            
+                // Modal window with content(pdf)   !!!!! DEFAULT DISPLAY MUST BE none !!!!!
+                div(id='modal' + m.chapter +'.'+ m.name, class='modal')
 
-            script(type='text/javascript').
+                    // PDF goes here
+                    canvas(id='the-canvas' class='modal__pdf')
+
+                    // Previous/Next buttons
+                    div(class='modal__buttons')
+                        button(id='prev')='Previous'
+                        button(id='next')='Next'
+                        span
+                            span(id='page_num')='Page: '
+                            ='/'
+                            span(id='page_count')=''
+
+                    // Code output window
+                    div(class='modal__code')
+
+            // JavaScript code for rendering corresponding PDF using PDF.js
+            script(src='javascripts/renderPDF.js')
+
+            // JavaScript code for opening modal window (openMaterial())
+            script.
                 function openMaterial(id) {
                     let materials = !{JSON.stringify(material)}
                     materials.forEach(m => {
-                        const to_close = document.getElementById('modal' + m.name)
+                        const to_close = document.getElementById('modal' + m.chapter + '.' + m.name)
                         to_close.style.display = 'none'
 
                     })
                     const b = document.getElementById(id)
                     const modal = document.getElementById('modal' + id)
                     modal.style.display = 'block'
-                    const url = './test.pdf'
-                    console.log(url)
-                    // Loaded via <script> tag, create shortcut to access PDF.js exports.
-                    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+                    renderPDF(id)
+                };
 
-                    // The workerSrc property shall be specified.
-                    pdfjsLib.GlobalWorkerOptions.workerSrc =
-                        'pdfjs-dist/build/pdf.worker.js';
-
-                    const loadingTask = pdfjsLib.getDocument(url);
-                    (async () => {
-                        const pdf = await loadingTask.promise;
-                        //
-                        // Fetch the first page
-                        //
-                        const page = await pdf.getPage(1);
-                        const scale = 1.5;
-                        const viewport = page.getViewport({scale});
-                        // Support HiDPI-screens.
-                        const outputScale = window.devicePixelRatio || 1;
-
-                        //
-                        // Prepare canvas using PDF page dimensions
-                        //
-                        const canvas = document.getElementById("canvas");
-                        const context = canvas.getContext("2d");
-
-                        canvas.width = Math.floor(viewport.width * outputScale);
-                        canvas.height = Math.floor(viewport.height * outputScale);
-                        canvas.style.width = Math.floor(viewport.width) + "px";
-                        canvas.style.height = Math.floor(viewport.height) + "px";
-
-                        const transform = outputScale !== 1
-                            ? [outputScale, 0, 0, outputScale, 0, 0]
-                            : null;
-
-                        //
-                        // Render PDF page into canvas context
-                        //
-                        const renderContext = {
-                            canvasContext: context,
-                            transform,
-                            viewport,
-                        };
-                        page.render(renderContext);
-                    })();
-                }
-
-
-
-
-            if student == 'admin'
-                include material
 
         else
-            form(method='post' action='auth')
-                input(type="text" placeholder="Name..." name="studentName")
-                input(type="text" placeholder="Student ID..." name="studentID")
-                button(type='submit')='Sign In'
+            // Sign in form if user is not authenticated
+            form(method='post' action='auth' class='auth_form')
+                h1(class='auth_form__title')='JS Materials'
+                input(type="text" placeholder="Name..." name="studentName" class='auth_form__input')
+                input(type="text" placeholder="Student ID..." name="studentID" class='auth_form__input')
+                button(type='submit' class='auth_form__button')='Sign In'
 
 

@@ -3,6 +3,11 @@ const express = require('express')
 
 let router = express.Router()
 
+router.get('/logout', (req, res, next) => {
+    req.session.student = null
+    return res.redirect('/')
+})
+
 router.post('', (req, res, next) => {
     // HEADERS
     res.setHeader('Conent-Type', 'application/x-www-form-urlencoded')

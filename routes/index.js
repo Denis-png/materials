@@ -4,6 +4,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('', function(req, res, next) {
+  res.setHeader( 'Access-Control-Allow-Headers', '*')
+
   let select_query = 'SELECT * FROM materials'
   let student = req.session.student
   db.all(select_query, function (err, response) {

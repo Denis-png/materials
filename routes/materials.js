@@ -1,13 +1,14 @@
 const express = require('express');
 const db = require('../models/database')
 const fs = require('fs')
+const path = require('path')
 const textract = require('textract')
 const router = express.Router();
 
 
-router.get('', function (req, res, next) {
-
-
+router.get('/:filename', function (req, res, next) {
+    console.log(path.join(__dirname,'../public/materials/',`${req.params.filename}.pdf`))
+    return res.sendFile(path.join(__dirname,'../public/materials/',`${req.params.filename}.pdf`))
 })
 
 router.post('', function(req, res, next) {
@@ -54,5 +55,7 @@ router.post('', function(req, res, next) {
     });
 
 });
+
+
 
 module.exports = router;

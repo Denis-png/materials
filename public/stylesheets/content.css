@@ -1,0 +1,25 @@
+/*BLOCK*/
+.modal{
+    display: none;
+    width: 600px;
+    height: 800px;
+
+}
+
+
+/*ELEMENT*/
+.modal__pdf{
+
+}
+
+/*Previous/Next buttons block*/
+.modal__buttons{
+
+}
+
+.modal__code{
+
+}
+
+
+/*MODIFIER*/
