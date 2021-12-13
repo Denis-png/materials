@@ -1,0 +1,25 @@
+{
+  "name": "leaflet-example-local",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html --open",
+    "build": "parcel build src/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.1",
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "leaflet": "^1.7.1",
+    "leaflet-routing-machine": "^3.2.12"
+  },
+  "styles": [
+    "../node_modules/leaflet/dist/leaflet.css",
+    "../node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css"
+  ]
+}

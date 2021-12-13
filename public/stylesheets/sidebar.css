@@ -1,13 +1,51 @@
 /*BLOCK*/
 .sidebar{
+    grid-row: 2;
+    grid-column: 1;
 
+    display:flex;
+    justify-content: start;
+    flex-direction: column;
+
+    height: 100%;
+
+    margin: 1rem auto;
 }
 
 
 /*ELEMENT*/
-.sidebar__item{
-
+.sidebar__title{
+    text-align: center;
+    font-size: 2rem;
+    color: #008CBA;
 }
+
+.sidebar__item{
+    display: inline-block;
+
+    background-color: transparent;
+    color: #008CBA;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+
+    border: 1px solid #008CBA;
+    border-radius: 3rem;
+
+    margin: .5rem auto;
+    padding: 1rem;
+
+    width: 90%;
+
+    transition: background-color .2s, color .2s;
+}
+
+
+.sidebar__item:hover, .sidebar__item:active, .sidebar__item:focus {
+    background-color: #008CBA;
+    color: white;
+}
+
 
 
 /*MODIFIER*/

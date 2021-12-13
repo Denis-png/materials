@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guess the color</title>
+    <link rel="stylesheet" href="Lesson3.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>Guess the colour</h1>
+      <div class="quiz-question">
+        <span class="quiz-question__text" id="quiz-question__text"></span>
+      </div>
+      <div class="answers__wrapper" id="answers"></div>
+      <div class="modal hide">
+        <div class="modal__content">
+          <h2 class="modal__heading">You win!</h2>
+          <div class="modal__text">
+            Do you want to play again?<br />
+            <span class="modal__text--smaller">(type yes or no)</span>
+          </div>
+          <form onsubmit="handleSubmitPlayAgain(event)" class="form">
+            <input
+              type="text"
+              name="answerInput"
+              class="form__input"
+              required
+            />
+            <button type="submit" class="form__button">Submit answer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      //SELECTORS
+      const answers = document.getElementById("answers");
+      const quizQuestionText = document.querySelector(".quiz-question__text");
+      // const answersOption = document.getElementsByClassName("answers__option");
+      const modal = document.querySelector(".modal");
+
+      //GLOBAL VARIABLES
+      let quizColor;
+      let answerColors = [];
+
+      console.log(quizQuestionText);
+
+      const getRandomInt = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+
+      // const getRandomRgbNumber = () => Math.floor(Math.random() * 256); - REPLACED WITH MORE GENERIC FUNCTION getRandomInt()
+
+      const generateColor = () => {
+        const red = getRandomInt(0, 255);
+        const green = getRandomInt(0, 255);
+        const blue = getRandomInt(0, 255);
+        return `rgb(${red}, ${green}, ${blue});`;
+      };
+
+      const clearAnswerColorsArr = () => {
+        answerColors = [];
+      };
+
+      const createAnswerColorsArr = () => {
+        for (let i = 0; i < 4; i++) {
+          answerColors.push(generateColor());
+        }
+      };
+
+      const renderAnswerOptions = () => {
+        for (let i = 0; i < answerColors.length; i++) {
+          answers.insertAdjacentHTML(
+            "beforeend",
+            `<button class="answers__option" style="background-color: ${answerColors[i]}" onclick="handleAnswerOptionClick(this)" id="${i}"></button>`
+          );
+        }
+      };
+
+      const renderQuizColor = () => {
+        quizColor = answerColors[getRandomInt(0, 3)];
+        quizQuestionText.innerHTML = quizColor;
+      };
+
+      //INITIAL RENDER
+      createAnswerColorsArr();
+      renderAnswerOptions();
+      renderQuizColor();
+
+      //MODAL LOGIC
+      // const handleModalChange = (show) =>
+      // show ? modal.classList.remove("hide") : modal.classList.add("hide");
+
+      const handleModalChange = (show) => {
+        // show ? modal.classList.remove("hide") : modal.classList.add("hide"); - REPLACED WITH THE CODE BELOW BECAUSE OF BOUNCE ANIMATION
+        if (show) {
+          modal.classList.remove("hide");
+          modal.style.animation = "bounce 1s";
+        } else {
+          modal.classList.add("hide");
+          modal.style.animation = null;
+        }
+      };
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) handleModalChange(false);
+      });
+
+      const handleAnswerOptionClick = (btn) => {
+        if (answerColors[btn.id] === quizColor) handleModalChange(true);
+        else btn.style.opacity = 0;
+      };
+
+      const handleSubmitPlayAgain = (event) => {
+        event.preventDefault();
+        const input = event.target.answerInput;
+        if (input.value === "yes") {
+          answers.innerHTML = "";
+          clearAnswerColorsArr(); // added function
+          createAnswerColorsArr();
+          renderAnswerOptions();
+          renderQuizColor();
+          input.value = "";
+          handleModalChange(false);
+        } else if (input.value === "no") {
+          input.value = "";
+          handleModalChange(false);
+        }
+      };
+    </script>
+  </body>
+</html>

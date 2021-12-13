@@ -2,7 +2,8 @@ html
     head
         title= 'JS Materials'
 
-        script(src='javascripts/pdfjs/build/pdf.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js')
+        script(src='javascripts/Timer.js')
 
         link(rel='stylesheet', href='stylesheets/reset.css')
         link(rel='stylesheet', href='stylesheets/breakpoints.css')
@@ -11,62 +12,94 @@ html
         link(rel='stylesheet', href='stylesheets/header.css')
         link(rel='stylesheet', href='stylesheets/footer.css')
         link(rel='stylesheet', href='stylesheets/sidebar.css')
+        link(rel='stylesheet', href='stylesheets/auth_form.css')
 
     body(class='layout')
         // If logged in
         if student
-            // Student name
-            span() #{student}
-            a(href='/auth/logout')='Logout'
+            div(class="header")
+                p(class="header__name") Student: #{student}
+                a(href='/auth/logout', class="header__logout") SIGN OUT
             // Table of contents
-            div(class='sidebar')
+            div(class="sidebar")
+                p(class="sidebar__title")='Topics'
                 each m in material
                     // Option in table of contents
                     // On click opens modal window
-                    button(class='sidebar__item', onclick='openMaterial(this.id)', id=m.chapter +'.'+ m.name) #{m.chapter}.#{m.name}
-
+                    button(class='sidebar__item' onclick="openMaterial(this.id)" id=m.chapter +'.'+ m.name) #{m.chapter}.#{m.name}
                 // If admin, show upload material option
                 if student == 'admin'
                     form(action='materials', method='POST', enctype="multipart/form-data")
                         input(type='file', name='toUpload')
                         button(type='submit')='Upload File'
 
-            each m in material
-                // Modal window with content(pdf)   !!!!! DEFAULT DISPLAY MUST BE none !!!!!
-                div(id='modal' + m.chapter +'.'+ m.name, class='modal')
+            // Modal window with content(pdf)   !!!!! DEFAULT DISPLAY MUST BE none !!!!!
+            div(id='modal', class='modal')
 
+                each m in material
                     // PDF goes here
-                    canvas(id='the-canvas' class='modal__pdf')
+                    canvas(id='the-canvas' + m.chapter +'.'+ m.name class='modal__pdf')
 
-                    // Previous/Next buttons
-                    div(class='modal__buttons')
-                        button(id='prev')='Previous'
-                        button(id='next')='Next'
-                        span
-                            span(id='page_num')='Page: '
-                            ='/'
-                            span(id='page_count')=''
+                // Previous/Next buttons
+                div(class='modal__buttons')
+                    button#prev Previous
+                    span
+                        span(id='page_num')='Page: '
+                        ='/'
+                        span(id='page_count')=''
+                    button#next Next
+                    button(onclick='openCodeOutput()') Output
 
-                    // Code output window
-                    div(class='modal__code')
+                // JavaScript code for rendering corresponding PDF using PDF.js
+                script(src='javascripts/renderPDF.js')
 
-            // JavaScript code for rendering corresponding PDF using PDF.js
-            script(src='javascripts/renderPDF.js')
+                // Code output window
+                div#output(class='modal__code')
+                    p#output_code
+
+
 
             // JavaScript code for opening modal window (openMaterial())
-            script.
+            script(type='text/javascript').
                 function openMaterial(id) {
                     let materials = !{JSON.stringify(material)}
                     materials.forEach(m => {
-                        const to_close = document.getElementById('modal' + m.chapter + '.' + m.name)
+                        const to_close = document.getElementById('the-canvas' + m.chapter + '.' + m.name)
                         to_close.style.display = 'none'
-
                     })
+                    const canvas = document.getElementById('the-canvas' + id)
+                    canvas.style.display = 'block'
                     const b = document.getElementById(id)
-                    const modal = document.getElementById('modal' + id)
-                    modal.style.display = 'block'
+                    const modal = document.getElementById('modal')
+                    modal.style.display = 'flex'
                     renderPDF(id)
+
                 };
+                timer();
+                function openCodeOutput() {
+                    // Output block
+                    const outputWindow = document.getElementById('output')
+                    // Output code text block
+                    const outputCode = document.getElementById('output_code')
+                    // Active page number
+                    const page = localStorage.getItem('page')
+                    if (outputWindow.style.display === 'block'){
+                        outputWindow.style.display = 'none'
+                    } else{
+                        outputWindow.style.display = 'block'
+                    }
+
+                    // Text output
+                    outputCode.innerHTML = page
+
+
+                }
+
+                document.addEventListener('focusout', () => {
+                    // Output block
+                    const outputWindow = document.getElementById('output')
+                    outputWindow.style.display = 'none'
+                })
 
 
         else

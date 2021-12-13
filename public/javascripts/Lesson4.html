@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API project</title>
+    <link rel="stylesheet" href="Lesson4.css" />
+  </head>
+  <body>
+    <main class="wrapper">
+      <header class="header">
+        <h1 class="header__title">What is your nationality?</h1>
+      </header>
+      <form class="form">
+        <label for="fName" class="form__label">First name</label>
+        <div class="form__row">
+          <input
+            type="text"
+            name="fName"
+            class="form__input"
+            placeholder="Enter your first name"
+            required
+          />
+          <button class="button" type="submit">Find out</button>
+        </div>
+      </form>
+
+      <div class="modal backdrop hide">
+        <div class="modal__content">
+          <header class="header">
+            <h2 class="modal__heading">nationality</h2>
+          </header>
+          <section class="modal__body">
+            <p class="modal__text"></p>
+            <button class="button button--fully-rounded" id="modalBtn">
+              Try again
+            </button>
+          </section>
+        </div>
+      </div>
+
+      <div class="backdrop hide" id="loading">
+        <div class="spinner"></div>
+      </div>
+    </main>
+
+    <script>
+      const form = document.querySelector(".form");
+      const input = document.querySelector(".form__input");
+      const modal = document.querySelector(".modal");
+      const modalHeading = document.querySelector(".modal__heading");
+      const modalText = document.querySelector(".modal__text");
+      const modalBtn = document.querySelector("#modalBtn");
+      const loading = document.querySelector("#loading");
+
+      const handleModalChange = (show) =>
+        show ? modal.classList.remove("hide") : modal.classList.add("hide");
+
+      const handleLoadingChange = (isLoading) =>
+        isLoading
+          ? loading.classList.remove("hide")
+          : loading.classList.add("hide");
+
+      const formatProbability = (num) => `${Math.round(num * 10000) / 100}%`;
+
+      const renderNationalityModal = ({ name, nationality }) => {
+        input.value = "";
+        input.blur();
+        handleModalChange(true);
+        modalHeading.innerHTML = `${name}'s nationality`;
+        modalText.innerHTML = `${name} is at ${formatProbability(
+          nationality.probability
+        )} from ${nationality.country_id}`;
+      };
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        //https://api.nationalize.io/?name=moris
+
+        /* const res = await fetch(
+          `https://api.nationalize.io/?name=${e.target.fName.value}`,
+          {
+            method: "GET",
+          }
+        );
+        console.log(res);
+        const jsoned = await res.json();
+
+        console.log(jsoned);
+
+        const highestProbability = jsoned.country.reduce((max, country) =>
+          max.probability > country.probability ? max : country
+        );
+
+        const user = { name: jsoned.name, nationality: highestProbability };
+
+        renderNationalityModal(user); */
+
+        try {
+          handleLoadingChange(true); //SHOW LOADING BEFORE FETCH CALL
+
+          const res = await fetch(
+            `https://api.nationalize.io/?name=${e.target.fName.value}`,
+            {
+              method: "GET",
+            }
+          );
+
+          if (!res.ok) throw new Error(res.statusText);
+
+          const jsoned = await res.json();
+
+          handleLoadingChange(false); //HIDE LOADING AFTER YOU GET A RESPONSE
+
+          if (jsoned.country.length === 0)
+            throw new Error("Empty array returned from the promise");
+
+          const highestProbability = jsoned.country.reduce((max, country) =>
+            max.probability > country.probability ? max : country
+          );
+
+          const user = { name: jsoned.name, nationality: highestProbability };
+
+          renderNationalityModal(user);
+        } catch (err) {
+          console.log(err);
+          handleLoadingChange(false); //OR HIDE IT WHEN SOME ERROR IS THROWN
+        }
+      });
+
+      modalBtn.addEventListener("click", () => handleModalChange(false));
+    </script>
+  </body>
+</html>

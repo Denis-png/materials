@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.get('/:filename', function (req, res, next) {
-    console.log(path.join(__dirname,'../public/materials/',`${req.params.filename}.pdf`))
+    //console.log(path.join(__dirname,'../public/materials/',`${req.params.filename}.pdf`))
     return res.sendFile(path.join(__dirname,'../public/materials/',`${req.params.filename}.pdf`))
 })
 

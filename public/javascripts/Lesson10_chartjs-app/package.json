@@ -1,0 +1,19 @@
+{
+  "name": "chartjs-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html --open",
+    "build": "parcel build src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "regenerator-runtime": "^0.13.7"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.4"
+  }
+}

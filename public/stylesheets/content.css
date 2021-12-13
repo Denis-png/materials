@@ -1,25 +1,68 @@
 /*BLOCK*/
 .modal{
+    grid-column: 2;
+    grid-row: 2;
+
     display: none;
-    width: 600px;
-    height: 800px;
+    flex-direction: column;
+    align-items: center;
 
 }
 
 
 /*ELEMENT*/
 .modal__pdf{
-
+    margin: 1rem;
 }
 
 /*Previous/Next buttons block*/
 .modal__buttons{
+    padding: 0 8rem;
+
+    color: #008CBA;
+    font-size: 1.5rem;
+}
+
+.modal__buttons button{
+    background-color: transparent;
+    color: #008CBA;
+    text-align: center;
+    text-decoration: none;
+
+    padding: .5rem;
+    margin: 0 1rem;
+
+    width: 5rem;
+    height: 3rem;
+
+    border: 1px solid #008CBA;
+    border-radius: 3rem;
+
+    transition: background-color .2s, color .2s;
 
 }
 
 .modal__code{
+    display: none;
+
+    border: 1px solid #008CBA;
+    border-radius: 1rem;
+
+    padding: 1rem;
+    margin: 1rem;
+
+    background-color: transparent;
+    color: #006283;
+    text-align: left;
+
+    height: 10rem;
 
 }
 
+
+.modal__buttons button:hover, .modal__buttons button:active{
+    background-color: #008CBA;
+    color: white;
+}
 
 /*MODIFIER*/

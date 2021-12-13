@@ -1,0 +1,1 @@
+{"version":3,"sources":["styles.css"],"names":[],"mappings":"AAAA,UAEE,UAAW,CACX,WACF,CAEA,EACE,qBAAsB,CACtB,QAAS,CACT,SACF,CAEA,GACE,UACF","file":"src.4c0f4343.css","sourceRoot":"../src","sourcesContent":["html,\nbody {\n  width: 100%;\n  height: 100%;\n}\n\n* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nh1 {\n  color: pink;\n}\n"]}
