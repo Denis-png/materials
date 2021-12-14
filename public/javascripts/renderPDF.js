@@ -71,7 +71,7 @@ function renderPDF(id) {
             return;
         }
         pageNum--;
-        localStorage.clear()
+        localStorage.setItem('page', null)
         localStorage.setItem('page', pageNum)
         queueRenderPage(pageNum);
     }
@@ -87,7 +87,7 @@ function renderPDF(id) {
             return;
         }
         pageNum++;
-        localStorage.clear()
+        localStorage.setItem('page', null)
         localStorage.setItem('page', pageNum)
         queueRenderPage(pageNum);
     }

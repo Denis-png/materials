@@ -110,7 +110,7 @@ class Lesson1 {
         function sumDeclaration(a, b) {
             return a + b;
         }
-        sumDeclaration(2, 3); //seète 2 + 3 a vrátí hodnotu 5
+        sumDeclaration(2, 3); //seï¿½te 2 + 3 a vrï¿½tï¿½ hodnotu 5
 
         //function expression
 
@@ -157,7 +157,7 @@ class Lesson1 {
         //ARRAYS
         //Array declaration
         const cities = ["Prague", "Budapest", "Moscow", "London"];
-        const carBrands = new Array("BWM", "Audi", "Škoda");
+        const carBrands = new Array("BWM", "Audi", "ï¿½koda");
 
         //Access to array values
         console.log(cities[0]);
@@ -365,47 +365,4 @@ class Lesson1 {
 
     }
 
-    page21() {
-        console_to_page()
-        console.log(hoistedVar); //returns undefined
-        var hoistedVar = "cat";
-        console.log(hoistedVar); //returns "cat"
-        var hoistedVar
-        console.log(hoistedVar)
-        hoistedVar = "cat"
-        console.log(hoistedConst); //Reference error - cannot access "hoistedConst" before its initialization
-        const hoistedConst = "dog";
-        console.log(hoistedConst); //returns "dog"
-
-        var redeclaredVar = "fish";
-        var redeclaredVar = "mouse";
-        console.log(redeclaredVar); //returns "mouse"
-        const redeclaredConst = "monkey";
-        const redeclaredConst = "pig"; //SyntaxError: Identifier 'redeclaredConst' has already been declared
-
-    }
-    page22() {
-        console_to_page()
-        var someCar = "BMW";
-        if (true) {
-            var someCar = "Škoda";
-        }
-        console.log(someCar);
-        const someCar = "BMW";
-        if (true) {
-            const someCar = "Škoda";
-            console.log(someCar); // “Škoda”
-        }
-        console.log(someCar); //"BMW"
-        const someCar = "BMW";
-        const someCar = "Škoda";
-        console.log(someCar); //SyntaxError: Identifier 'someCar' has already been declared
-        const someCar = "BMW";
-        if (true) {
-            console.log(someCar); //ReferenceError: Cannot access 'someCar' before      initialization
-            const someCar = "Škoda";
-        }
-        console.log(someCar); //"BMW"
-
-    }
 }

@@ -3,7 +3,7 @@ function console_to_page() {
         console = {};
     }
     let old = console.log;
-    let logger = document.getElementById('log');
+    let logger = document.getElementById('output_code');
     console.log = function (message) {
         if (typeof message == 'object') {
             logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : String(message)) + '<br />';
@@ -23,7 +23,7 @@ class Lesson2 {
 
         }
         //for loop
-        const cars = ["Audi A6", "Škoda superb 3", "BMW X6", "Audi R8"];
+        const cars = ["Audi A6", "ï¿½koda superb 3", "BMW X6", "Audi R8"];
 
         for (let i = 0; i < cars.length; i++) {
             console.log(cars[i]); //first iteration i value - Audi A6
@@ -73,7 +73,7 @@ class Lesson2 {
         for (const letter of iterateMe) {
             console.log(letter);
         }
-        for (key in john) {
+        for (var key in john) {
             console.log(key); //key
             console.log(john[key]); //value
         }
@@ -141,7 +141,7 @@ class Lesson2 {
         }
 
         //Instance of Car
-        const car3 = new Car("Škoda", "blue", 132032, false);
+        const car3 = new Car("ï¿½koda", "blue", 132032, false);
         console.log(car3.kilometers.toString());
 
         console.log(Car);
@@ -188,7 +188,6 @@ class Lesson2 {
 
 
 
-    }
 
     page20() {
         console_to_page()

@@ -1,19 +1,3 @@
-function console_to_page() {
-    if (!console) {
-        console = {};
-    }
-    let old = console.log;
-    let logger = document.getElementById('log');
-    console.log = function (message) {
-        if (typeof message == 'object') {
-            logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : String(message)) + '<br />';
-        } else {
-            logger.innerHTML += message + '<br />';
-        }
-    }
-};
-
-
 class Lesson4 {
     page3() {
         console_to_page()

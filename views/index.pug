@@ -56,6 +56,8 @@ html
                 // Code output window
                 div#output(class='modal__code')
                     p#output_code
+                    // each m in material
+                    //     script(src='javascripts/code_examples/' + m.chapter +'.'+ m.name + '.js')
 
 
 
@@ -67,6 +69,13 @@ html
                         const to_close = document.getElementById('the-canvas' + m.chapter + '.' + m.name)
                         to_close.style.display = 'none'
                     })
+
+
+                    const chapter = id.substr(0, 1)
+                    localStorage.clear()
+                    localStorage.setItem('chapter', chapter)
+
+
                     const canvas = document.getElementById('the-canvas' + id)
                     canvas.style.display = 'block'
                     const b = document.getElementById(id)
@@ -76,24 +85,31 @@ html
 
                 };
                 timer();
+
                 function openCodeOutput() {
                     // Output block
                     const outputWindow = document.getElementById('output')
                     // Output code text block
                     const outputCode = document.getElementById('output_code')
+                    // Output script block
+                    const imports = document.getElementById('imports')
+                    // Active chapter
+                    const chapter = localStorage.getItem('chapter')
                     // Active page number
                     const page = localStorage.getItem('page')
+
+                    eval(`var lesson = new Lesson${chapter}()`)
+                    eval(`lesson.page${page}()`)
+
                     if (outputWindow.style.display === 'block'){
                         outputWindow.style.display = 'none'
                     } else{
                         outputWindow.style.display = 'block'
                     }
 
-                    // Text output
-                    outputCode.innerHTML = page
-
 
                 }
+
 
                 document.addEventListener('focusout', () => {
                     // Output block

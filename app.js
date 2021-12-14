@@ -9,6 +9,7 @@ var session = require('express-session')
 var indexRouter = require('./routes/index');
 var uploadRouter = require('./routes/materials');
 var authRouter = require('./routes/auth')
+var codeRouter = require('./routes/code_examples')
 
 let connectDB = require('./models/database')
 
@@ -32,6 +33,7 @@ app.use(session({
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/materials', uploadRouter)
+app.use('/code', codeRouter)
 app.use('/scripts', express.static(__dirname + '/node_modules/pdfjs-dist/build/'))
 app.use(express.static(path.join(__dirname, 'public')));
 

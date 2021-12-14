@@ -158,7 +158,7 @@ class Lesson5 {
         const addDirector = (game, name) =>
             Object.assign({}, mafia, { director: name });
 
-        console.log(addDirector(mafia, "Daniel Vávra"));
+        console.log(addDirector(mafia, "Daniel Vï¿½vra"));
 
         const mafia = {
             genre: "Action-adventure",
@@ -180,8 +180,8 @@ class Lesson5 {
             };
         };
 
-        console.log(addDirector(mafia, "Daniel Vávra"));
-        const mafiaWithDirector = addDirector(mafia, "Daniel Vávra");
+        console.log(addDirector(mafia, "Daniel Vï¿½vra"));
+        const mafiaWithDirector = addDirector(mafia, "Daniel Vï¿½vra");
 
 
         const nestedMafia = {
@@ -189,7 +189,7 @@ class Lesson5 {
             releaseDate: new Date("August, 28, 2002"),
             developer: "Illusion Softworks",
             director: {
-                name: "Daniel Vávra",
+                name: "Daniel Vï¿½vra",
                 otherGame: "Kingdom Come: Deliverance",
             },
         };
